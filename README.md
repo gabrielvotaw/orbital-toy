@@ -4,6 +4,8 @@ A small 2D orbital mechanics sandbox made in Godot 4.7: a planet, a moon on rail
 
 **Play in your browser:** https://gabrielvotaw.github.io/orbital-toy/
 
+![Planning a transfer and capture with maneuver nodes, then flying it to orbit around the moon](media/demo.gif)
+
 ## Controls
 
 | Input | Action |
