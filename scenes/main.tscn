@@ -1,0 +1,66 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/celestial_body.gd" id="1_body"]
+[ext_resource type="Script" path="res://scripts/ring.gd" id="2_ring"]
+[ext_resource type="Script" path="res://scripts/orbit_camera.gd" id="3_camera"]
+[ext_resource type="Script" path="res://scripts/hud.gd" id="4_hud"]
+[ext_resource type="Script" path="res://scripts/trajectory_view.gd" id="5_trajectory_view"]
+[ext_resource type="Script" path="res://scripts/ship.gd" id="6_ship"]
+[ext_resource type="Script" path="res://scripts/maneuver_planner.gd" id="7_planner"]
+
+[node name="Main" type="Node2D"]
+
+[node name="PaleOrbit" type="Node2D" parent="."]
+script = ExtResource("2_ring")
+color = Color(1, 1, 1, 0.12)
+
+[node name="Haven" type="Node2D" parent="."]
+script = ExtResource("1_body")
+
+[node name="Pale" type="Node2D" parent="." node_paths=PackedStringArray("parent_body", "orbit_ring", "sphere_of_influence_ring")]
+script = ExtResource("1_body")
+radius = 200.0
+mu = 65.138
+atmosphere_height = 0.0
+surface_color = Color(0.62, 0.62, 0.66, 1)
+parent_body = NodePath("../Haven")
+orbit_radius = 8000.0
+orbit_start_angle = -150.0
+orbit_ring = NodePath("../PaleOrbit")
+sphere_of_influence_ring = NodePath("SphereOfInfluence")
+
+[node name="SphereOfInfluence" type="Node2D" parent="Pale"]
+script = ExtResource("2_ring")
+color = Color(0.8, 0.8, 0.85, 0.18)
+
+[node name="Trajectory" type="Node2D" parent="."]
+script = ExtResource("5_trajectory_view")
+
+[node name="Ship" type="Node2D" parent="." node_paths=PackedStringArray("home_body", "trajectory_view")]
+script = ExtResource("6_ship")
+home_body = NodePath("../Haven")
+trajectory_view = NodePath("../Trajectory")
+
+[node name="ManeuverPlanner" type="Node2D" parent="." node_paths=PackedStringArray("ship")]
+script = ExtResource("7_planner")
+ship = NodePath("../Ship")
+
+[node name="Camera" type="Camera2D" parent="." node_paths=PackedStringArray("focus_targets")]
+zoom = Vector2(0.3, 0.3)
+script = ExtResource("3_camera")
+focus_targets = [NodePath("../Haven"), NodePath("../Ship"), NodePath("../Pale")]
+
+[node name="HUD" type="CanvasLayer" parent="." node_paths=PackedStringArray("ship")]
+script = ExtResource("4_hud")
+ship = NodePath("../Ship")
+
+[node name="Controls" type="Label" parent="HUD"]
+offset_left = 16.0
+offset_top = 12.0
+theme_override_colors/font_color = Color(0.8, 0.85, 0.95, 0.8)
+text = "W/S: prograde/retrograde    A/D: radial in/out    Shift: fine thrust    R: reset\nClick path: add maneuver    Click node: select    Drag handles: set burn (Shift: fine)    Drag node: move it    X: delete\nScroll: zoom    Right/middle drag or arrows: pan    F: cycle camera focus    Space: pause    Comma/Period: sim speed"
+
+[node name="InfoLabel" type="Label" parent="HUD"]
+offset_left = 16.0
+offset_top = 92.0
+theme_override_colors/font_color = Color(0.8, 0.85, 0.95, 0.8)
