@@ -1,6 +1,6 @@
 # Orbital Toy
 
-A small 2D orbital mechanics sandbox made in Godot 4.7: a planet, a moon on rails, and a ship you fly with thrust or with chained maneuver nodes. Orbits are exact (Kepler, patched conics), and the predicted trajectory shows moon encounters before they happen.
+A small 2D orbital mechanics sandbox made in Godot 4.7: a planet with three moons on rails, and a ship you fly with thrust or with chained maneuver nodes. Orbits are exact (Kepler, patched conics), and the predicted trajectory shows moon encounters before they happen. Planets, moons and the starfield are drawn with procedural shaders.
 
 **Play in your browser:** https://gabrielvotaw.github.io/orbital-toy/
 
@@ -20,7 +20,7 @@ A small 2D orbital mechanics sandbox made in Godot 4.7: a planet, a moon on rail
 | Space | Pause |
 | Comma / Period | Simulation speed |
 | Scroll, right-drag, arrows | Zoom and pan |
-| F | Cycle camera focus (planet, ship, moon) |
+| F | Cycle camera focus (planet, ship, moons) |
 | R | Reset the ship |
 | M | Mute / unmute music |
 

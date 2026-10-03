@@ -23,8 +23,11 @@ const DIMMED_ALPHA := 0.3
 @export var apoapsis_altitude := 400.0
 ## Engine acceleration in m/s².
 @export var thrust_acceleration := 2.0
-@export var color := Color(1.0, 0.85, 0.4)
-@export var flame_color := Color(1.0, 0.5, 0.2)
+@export var hull_color := Color(0.88, 0.9, 0.94)
+@export var accent_color := Color(0.95, 0.45, 0.2)
+@export var window_color := Color(0.35, 0.75, 1.0)
+@export var flame_color := Color(1.0, 0.5, 0.15)
+@export var flame_core_color := Color(1.0, 0.92, 0.6)
 
 ## The body whose gravity the ship currently feels. `orbit` is relative to it.
 var reference_body: CelestialBody
@@ -219,15 +222,25 @@ func _process(_delta: float) -> void:
 	queue_redraw()
 
 
+## Drawn in screen pixels (the node is scaled by 1/zoom), pointing along +x.
 func _draw() -> void:
 	if engine_output != Vector2.ZERO:
-		var length := 6.0 + 10.0 * minf(engine_output.length(), 1.0)
-		draw_colored_polygon(PackedVector2Array([
-			Vector2(-4, 3.5), Vector2(-4 - length, 0), Vector2(-4, -3.5),
-		]), flame_color)
-	draw_colored_polygon(PackedVector2Array([
-		Vector2(10, 0), Vector2(-7, 7), Vector2(-3, 0), Vector2(-7, -7),
-	]), color)
+		var length := (7.0 + 11.0 * minf(engine_output.length(), 1.0)) * randf_range(0.85, 1.15)
+		draw_colored_polygon(PackedVector2Array([Vector2(-9, 3.5), Vector2(-9 - length, 0), Vector2(-9, -3.5)]), flame_color)
+		draw_colored_polygon(PackedVector2Array([Vector2(-9, 2), Vector2(-9 - length * 0.55, 0), Vector2(-9, -2)]), flame_core_color)
+
+	var engine_bell := PackedVector2Array([Vector2(-6, 2.5), Vector2(-9.5, 4), Vector2(-9.5, -4), Vector2(-6, -2.5)])
+	var fin_top := PackedVector2Array([Vector2(-6, 3.5), Vector2(-1, 3.5), Vector2(-8, 8.5)])
+	var fin_bottom := PackedVector2Array([Vector2(-6, -3.5), Vector2(-1, -3.5), Vector2(-8, -8.5)])
+	var hull := PackedVector2Array([Vector2(-6.5, 3.5), Vector2(5, 3.5), Vector2(13, 0), Vector2(5, -3.5), Vector2(-6.5, -3.5)])
+	var nose := PackedVector2Array([Vector2(8, 2), Vector2(13, 0), Vector2(8, -2)])
+	draw_colored_polygon(engine_bell, Color(0.35, 0.37, 0.42))
+	draw_colored_polygon(fin_top, accent_color)
+	draw_colored_polygon(fin_bottom, accent_color)
+	draw_colored_polygon(hull, hull_color)
+	draw_polyline(hull + PackedVector2Array([hull[0]]), hull_color.darkened(0.45), 1.0, true)
+	draw_colored_polygon(nose, accent_color)
+	draw_circle(Vector2(2.5, 0), 1.8, window_color, true, -1.0, true)
 
 
 func _predict(time: float) -> void:
