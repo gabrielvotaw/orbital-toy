@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://scripts/celestial_body.gd" id="1_body"]
 [ext_resource type="Script" path="res://scripts/ring.gd" id="2_ring"]
@@ -7,6 +7,8 @@
 [ext_resource type="Script" path="res://scripts/trajectory_view.gd" id="5_trajectory_view"]
 [ext_resource type="Script" path="res://scripts/ship.gd" id="6_ship"]
 [ext_resource type="Script" path="res://scripts/maneuver_planner.gd" id="7_planner"]
+[ext_resource type="Script" path="res://scripts/music.gd" id="8_music"]
+[ext_resource type="AudioStream" path="res://audio/space_ambient.ogg" id="9_music_stream"]
 
 [node name="Main" type="Node2D"]
 
@@ -50,6 +52,11 @@ zoom = Vector2(0.3, 0.3)
 script = ExtResource("3_camera")
 focus_targets = [NodePath("../Haven"), NodePath("../Ship"), NodePath("../Pale")]
 
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_music_stream")
+volume_db = -6.0
+script = ExtResource("8_music")
+
 [node name="HUD" type="CanvasLayer" parent="." node_paths=PackedStringArray("ship")]
 script = ExtResource("4_hud")
 ship = NodePath("../Ship")
@@ -58,7 +65,7 @@ ship = NodePath("../Ship")
 offset_left = 16.0
 offset_top = 12.0
 theme_override_colors/font_color = Color(0.8, 0.85, 0.95, 0.8)
-text = "W/S: prograde/retrograde    A/D: radial in/out    Shift: fine thrust    R: reset\nClick path: add maneuver    Click node: select    Drag handles: set burn (Shift: fine)    Drag node: move it    X: delete\nScroll: zoom    Right/middle drag or arrows: pan    F: cycle camera focus    Space: pause    Comma/Period: sim speed"
+text = "W/S: prograde/retrograde    A/D: radial in/out    Shift: fine thrust    R: reset    M: mute music\nClick path: add maneuver    Click node: select    Drag handles: set burn (Shift: fine)    Drag node: move it    X: delete\nScroll: zoom    Right/middle drag or arrows: pan    F: cycle camera focus    Space: pause    Comma/Period: sim speed"
 
 [node name="InfoLabel" type="Label" parent="HUD"]
 offset_left = 16.0

@@ -22,7 +22,10 @@ A small 2D orbital mechanics sandbox made in Godot 4.7: a planet, a moon on rail
 | Scroll, right-drag, arrows | Zoom and pan |
 | F | Cycle camera focus (planet, ship, moon) |
 | R | Reset the ship |
+| M | Mute / unmute music |
 
 ## Running locally
 
 Open `project.godot` in Godot 4.7 and press F5. Tests: `godot --headless --path . res://tests/run_tests.tscn`.
+
+The background music is synthesized by `tools/make_music.py` (needs Python and ffmpeg); rerun it to regenerate `audio/space_ambient.ogg`.
